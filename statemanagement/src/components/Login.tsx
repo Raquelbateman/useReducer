@@ -1,25 +1,29 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
+import { loginReducer } from '../reducers/loginReducer';
 
-const Login  = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>('UH LEE SEE UH');
+const Login = () => {
+  const [state, dispatch] = useReducer(loginReducer, {
+    isLoggedIn: false,
+    username: ''
+  });
 
-  // Handle login
   const handleLogin = () => {
-    setIsLoggedIn(true);
+    dispatch({
+      type: 'LOGIN',
+      username: 'UH LEE SEE UH'
+    });
   };
 
-  // Handle logout
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    dispatch({ type: 'LOGOUT' });
   };
 
   return (
     <div className="container mt-5">
       <h1 className="mb-4">User Authentication</h1>
-      {isLoggedIn ? (
+      {state.isLoggedIn ? (
         <div>
-          <h2>It is I, {username}!</h2>
+          <h2>Hi {state.username}!</h2>
           <button className="btn btn-danger" onClick={handleLogout}>
             Log Out
           </button>
